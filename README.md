@@ -76,7 +76,6 @@ Download dependencies with the shell command below.
 ```shell
 # install depedency through apt-get
 apt-get update 
-export DEBIAN_FRONTEND=noninteractive
 apt-get -yq install ffmpeg libsm6 libxext6 
 apt install libturbojpeg tmux -y
 
