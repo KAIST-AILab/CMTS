@@ -1,9 +1,12 @@
 # Cross-Modal Token Synchronization for Visual Speech Recognition
 
 ### Cross-Modal Token Synchronization (CMTS)
-<img width="400" alt="image" src="./assets/CMTS.png">
 
-### Pseudo-Code for the Overview of CMTS Framework
+|             Framework Overview              |              Influence of Audio Reconstruction Loss (λ)              |
+| :--------------------------------------------: | :----------------------------------------------: |
+| <img height="300" alt="image" src="./assets/CMTS.png"> | <img height="300" alt="image" src="./assets/Performance.png"> |
+
+### Pseudo-Code for the CMTS Framework
 ```python3
 class CrossModalTokenSynchronization(nn.Module):
     """
@@ -24,7 +27,7 @@ class CrossModalTokenSynchronization(nn.Module):
         # encoding video frames with cls video token
         last_hidden_state = self.encoder(videos) # [B, seq_len+1, hidden_size]
 
-        # Get audio reconstruction Loss
+        # Get audio reconstruction loss
         logits_audio = self.audio_classifier(last_hidden_state[:, 1:, :]) # [B, seq_len, audio_alignment * vq_groups * audio_vocab_size]
         logits_audio = logits_audio.reshape(B, seq_len, audio_alignment * vq_groups, audio_vocab_size) # [B, seq_len, audio_alignment * vq_groups, audio_vocab_size]
         # For each encoded video frame, it should predict combination of (audio_alignment * vq_groups) audio tokens
