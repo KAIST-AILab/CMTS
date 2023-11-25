@@ -45,7 +45,7 @@ class CrossModalTokenSynchronization(nn.Module):
 
 ### Results & Pretrained Models
 
-**Lip Reading in the Wild (LRW) benchmarks**
+**Lip Reading in the Wild (LRW) Benchmarks**
 
 |Conference| Method | Spatial | Temporal | Audio Usage | Test Acc1 (%) ↑ |
 |:------:| :------: | :-------: | :--------: | :-----: | :-----------: |
