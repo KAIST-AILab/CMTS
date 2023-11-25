@@ -45,20 +45,20 @@ class CrossModalTokenSynchronization(nn.Module):
 
 ### Results & Pretrained Models
 
-**Lip Reading in the Wild (LRW) Benchmarks**
+**Lip Reading in the Wild (LRW) [1] Benchmarks**
 
 |Conference| Method | Spatial | Temporal | Audio Usage | Test Acc1 (%) ↑ |
 |:------:| :------: | :-------: | :--------: | :-----: | :-----------: |
-|Interspeech '21| [LiRA](https://arxiv.org/abs/2106.09171)| ResNet18 | Conformer | ✔️ | 88.1 |
-|AAAI '22| [MVM](https://arxiv.org/pdf/2204.01725v1.pdf) | ResNet18 | MS-TCN | ✔️ | 88.5 |
-|ICASSP '22| [Koumparoulis<br />et al](https://ieeexplore.ieee.org/document/9747729) | EfficientNetV2 | Transformer | ❌ | 89.5 |
-|ICASSP '22| [Ma et al](https://arxiv.org/pdf/2209.01383.pdf) | ResNet18 | DC-TCN | ❌ | 90.4 |
-|ICASSP '23| [MTLAM](https://arxiv.org/pdf/2305.04542.pdf) | ResNet18 | DC-TCN | ✔️ | 91.7 |
+|Interspeech '21| [LiRA](https://arxiv.org/abs/2106.09171) [2]| ResNet18 [7] | Conformer [8] | ✔️ | 88.1 |
+|AAAI '22| [MVM](https://arxiv.org/pdf/2204.01725v1.pdf) [3] | ResNet18 | MS-TCN [9] | ✔️ | 88.5 |
+|ICASSP '22| [Koumparoulis<br />et al](https://ieeexplore.ieee.org/document/9747729) [4] | EfficientNetV2 [10] | Transformer [11] | ❌ | 89.5 |
+|ICASSP '22| [Ma et al](https://arxiv.org/pdf/2209.01383.pdf) [5] | ResNet18 | DC-TCN [12] | ❌ | 90.4 |
+|ICASSP '23| [MTLAM](https://arxiv.org/pdf/2305.04542.pdf) [6] | ResNet18 | DC-TCN | ✔️ | 91.7 |
 |-| Ours | ResNet18 | DC-TCN | ✔️ | **91.8** |
 |-| Ours | ResNet18 | Transformer | ✔️ | **92.4** |
 
 
-Recognizing the challenge of acquiring VSR data, our framework advances existing VSR systems in data-limited scenarios by utilizing unsupervisedly trained neural audio codecs.
+Recognizing the challenge of acquiring VSR data [13], our framework advances existing VSR systems in data-limited scenarios by utilizing unsupervisedly trained neural audio codecs such as vq-wav2vec [14] or wav2vec 2.0 [15].
 
 **Without Word Boundary**
 
@@ -66,7 +66,7 @@ Recognizing the challenge of acquiring VSR data, our framework advances existing
 | :-------: | :-------: | :-------: | :-------: | :---------: | :---------: |
 | DC-TCN | LRW | - | - | 90.2 | [🔗](https://github.com/KAIST-AILab/CMTS/releases/download/v1/dctcn_lambda0_no_WB_single_9020.ckpt) |
 | DC-TCN | LRW | vq-wav2vec | LRW       | 91.8       | [🔗](https://github.com/KAIST-AILab/CMTS/releases/download/v1/dctcn_lambda10_no_WB_dual_9181.ckpt) |
-| DC-TCN | LRW | vq-wav2vec | LibriSpeech | 92.3 | [🔗](https://github.com/KAIST-AILab/CMTS/releases/download/v1/dctcn_lambda10_no_WB_Libri.ckpt) |
+| DC-TCN | LRW | vq-wav2vec | LibriSpeech [16] | 92.3 | [🔗](https://github.com/KAIST-AILab/CMTS/releases/download/v1/dctcn_lambda10_no_WB_Libri.ckpt) |
 
 | **Temporal Model** | **VSR Data** | **Audio Codec** | **Audio Codec Data** | **Test Acc1 (%) ↑** | URL |
 | :-------: | :-------: | :-------: | :-------: | :---------: | :---------: |
@@ -150,3 +150,27 @@ For inference, please download the pretrained checkpoint from the repository's [
 python ./src/inference.py ./config/bert-12l-512d.yaml devices=[0] # Transformer backbone
 python ./src/inference.py ./config/dc-tcn-base.yaml devices=[0] # DC-TCN backbone
 ```
+
+### References
+<details>
+<summary>References</summary>
+    <ul>
+        <li> [1] Chung, Joon Son and Andrew Zisserman. “Lip Reading in the Wild.” Asian Conference on Computer Vision (2016): 87–103.</li>
+        <li> [2] Ma, Pingchuan et al. “LiRA: Learning Visual Speech Representations from Audio through Self-supervision.” Interspeech (2021). </li>
+        <li> [3] Kim, Minsu et al. “Distinguishing Homophenes Using Multi-Head Visual-Audio Memory for Lip Reading.” AAAI Conference on Artificial Intelligence (2022). </li>
+        <li> [4] Koumparoulis, Alexandros and Gerasimos Potamianos. “Accurate and Resource-Efficient Lipreading with Efficientnetv2 and Transformers.” ICASSP 2022 - 2022 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP) (2022): 8467-8471.</li>
+        <li> [5] Ma, Pingchuan et al. “Training Strategies for Improved Lip-Reading.” ICASSP 2022 - 2022 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP) (2022): 8472-8476.</li>
+        <li> [6] Yeo, Jeong Hun et al. “Multi-Temporal Lip-Audio Memory for Visual Speech Recognition.” ICASSP 2023 - 2023 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP) (2023): 1-5.</li>
+        <li> [7] He, K., Zhang, X., Ren, S., & Sun, J. (2015). Deep Residual Learning for Image Recognition. 2016 IEEE Conference on Computer Vision and Pattern Recognition (CVPR), 770-778. </li>
+        <li> [8] A. Gulati et al., “Conformer: Convolution-augmented Transformer for Speech Recognition,” in Interspeech, 2020, pp. 5036–5040. </li>
+        <li> [9] Abu Farha, Y., & Gall, J. (2019). MS-TCN: Multi-Stage Temporal Convolutional Network for Action Segmentation. 2019 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 3570-3579. </li>
+        <li> [10] Tan, Mingxing and Quoc V. Le. “EfficientNetV2: Smaller Models and Faster Training.” International Conference on Machine Learning (2021).</li>
+        <li> [11] Vaswani, Ashish et al. “Attention is All you Need.” Neural Information Processing Systems (2017).</li>
+        <li> [12] Ma, Pingchuan et al. “Lip-reading with Densely Connected Temporal Convolutional Networks.” 2021 IEEE Winter Conference on Applications of Computer Vision (WACV) (2020): 2856-2865. </li>
+        <li> [13] Ma, Pingchuan et al. “Auto-AVSR: Audio-Visual Speech Recognition with Automatic Labels.” ICASSP 2023 - 2023 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP) (2023): 1-5.</li>
+        <li> [14] Baevski et al., “vq-wav2vec: Self-supervised learning of discrete speech representations,” in ICLR, 2020</li>
+        <li> [15] A. Baevski et al., “wav2vec 2.0: A framework for self-supervised learning of speech representations,” NeurIPS, vol. 33, pp. 12449–12460, 2020</li>
+        <li> [16] Panayotov, Vassil et al. “Librispeech: An ASR corpus based on public domain audio books.” 2015 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP) (2015): 5206-5210. </li>
+    </ul>
+</details>
+
