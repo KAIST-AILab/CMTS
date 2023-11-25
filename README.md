@@ -49,14 +49,16 @@ class CrossModalTokenSynchronization(nn.Module):
 
 |Conference| Method | Spatial | Temporal | Audio Usage | Test Acc1 (%) ↑ |
 |:------:| :------: | :-------: | :--------: | :-----: | :-----------: |
-|2021 Interspeech| [LiRA](https://arxiv.org/abs/2106.09171)| ResNet18 | Conformer | ✔️ | 88.1 |
-|2022 AAAI| [MVM](https://arxiv.org/pdf/2204.01725v1.pdf) | ResNet18 | MS-TCN | ✔️ | 88.5 |
-|2022 ICASSP| [Koumparoulis<br />et al](https://ieeexplore.ieee.org/document/9747729) | EfficientNetV2 | Transformer | ❌ | 89.5 |
-|2022 ICASSP| [Ma et al](https://arxiv.org/pdf/2209.01383.pdf) | ResNet18 | DC-TCN | ❌ | 90.4 |
-|2023 ICASSP| [MTLAM](https://arxiv.org/pdf/2305.04542.pdf) | ResNet18 | DC-TCN | ✔️ | 91.7 |
+|Interspeech '21| [LiRA](https://arxiv.org/abs/2106.09171)| ResNet18 | Conformer | ✔️ | 88.1 |
+|AAAI '22| [MVM](https://arxiv.org/pdf/2204.01725v1.pdf) | ResNet18 | MS-TCN | ✔️ | 88.5 |
+|ICASSP '22| [Koumparoulis<br />et al](https://ieeexplore.ieee.org/document/9747729) | EfficientNetV2 | Transformer | ❌ | 89.5 |
+|ICASSP '22| [Ma et al](https://arxiv.org/pdf/2209.01383.pdf) | ResNet18 | DC-TCN | ❌ | 90.4 |
+|ICASSP '23| [MTLAM](https://arxiv.org/pdf/2305.04542.pdf) | ResNet18 | DC-TCN | ✔️ | 91.7 |
 |-| Ours | ResNet18 | DC-TCN | ✔️ | **91.8** |
 |-| Ours | ResNet18 | Transformer | ✔️ | **92.4** |
 
+
+Recognizing the challenge of acquiring VSR data, our framework advances existing VSR systems in data-limited scenarios by utilizing unsupervisedly trained neural audio codecs.
 
 **Without Word Boundary**
 
@@ -81,7 +83,7 @@ class CrossModalTokenSynchronization(nn.Module):
 | DC-TCN | LRW | vq-wav2vec | LRW       | 93.5 | [🔗](https://github.com/KAIST-AILab/CMTS/releases/download/v1/dctcn_lambda10_WB.ckpt) |
 | DC-TCN | LRW | vq-wav2vec | LibriSpeech | 93.9 | [🔗](https://github.com/KAIST-AILab/CMTS/releases/download/v1/dctcn_lambda10_WB_Libri_dual_9390.ckpt) |
 
-| **Temporal Model** | **Video Data** | **Audio Codec** | **Audio Codec Data** | **Test Acc1 (%) ↑** | URL |
+| **Temporal Model** | **VSR Data** | **Audio Codec** | **Audio Codec Data** | **Test Acc1 (%) ↑** | URL |
 | :-------: | :-------: | :-------: | :-------: | :---------: | :---------: |
 | Transformer | LRW | - | - | 89.5 |  |
 | Transformer | LRW | vq-wav2vec | LRW       | 94.4 | [🔗](https://github.com/KAIST-AILab/CMTS/releases/download/v1/transformer_lambda10_WB_single_9436.ckpt) |
