@@ -47,11 +47,11 @@ class CrossModalTokenSynchronization(nn.Module):
 
 **Lip Reading in the Wild (LRW) benchmarks**
 
-|Year & Venue| Method | Spatial | Temporal | Audio Usage | Top-1 (%) ↑ |
+|Conference| Method | Spatial | Temporal | Audio Usage | Test Acc1 (%) ↑ |
 |:------:| :------: | :-------: | :--------: | :-----: | :-----------: |
 |2021 Interspeech| [LiRA](https://arxiv.org/abs/2106.09171)| ResNet18 | Conformer | ✔️ | 88.1 |
 |2022 AAAI| [MVM](https://arxiv.org/pdf/2204.01725v1.pdf) | ResNet18 | MS-TCN | ✔️ | 88.5 |
-|2022 ICASSP| [Koumparoulis et al](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=9747729&casa_token=XQQlJn_5r6YAAAAA:JLaoM4hCr7y1L-JdhORL2wrltDximXndfAFva8ODoYSJ0U29IJ46HFQYVAjdUdULRyRm1mZFdw&tag=1) | EfficientNet | Transformers | ❌ | 89.5 |
+|2022 ICASSP| [Koumparoulis<br />et al](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=9747729&casa_token=XQQlJn_5r6YAAAAA:JLaoM4hCr7y1L-JdhORL2wrltDximXndfAFva8ODoYSJ0U29IJ46HFQYVAjdUdULRyRm1mZFdw&tag=1) | EfficientNet | Transformer | ❌ | 89.5 |
 |2022 ICASSP| [Ma et al](https://arxiv.org/pdf/2209.01383.pdf) | ResNet18 | DC-TCN | ❌ | 90.4 |
 |2023 ICASSP| [MTLAM](https://arxiv.org/pdf/2305.04542.pdf) | ResNet18 | DC-TCN | ✔️ | 91.7 |
 |-| Ours | ResNet18 | DC-TCN | ✔️ | **91.8** |
