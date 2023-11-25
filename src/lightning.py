@@ -91,7 +91,7 @@ class TransformerLightningModule(pl.LightningModule):
         )
 
         if config.train.method == "sync":
-            self.audio_classifier = nn.Linear(
+            self.audio_projection = nn.Linear(
                 config.model.bert.dim,
                 self.audio_alignment
                 * metadata.model.vq_groups
@@ -104,7 +104,7 @@ class TransformerLightningModule(pl.LightningModule):
                 max_seq_len=119,
                 attn_layers=Decoder(dim=512, depth=1, heads=1, cross_attend=True),
             )
-            self.audio_classifier_group1 = AutoregressiveWrapper(
+            self.audio_projection_group1 = AutoregressiveWrapper(
                 self.gpt_group1,
                 mask_prob=0.15,
             )
@@ -113,7 +113,7 @@ class TransformerLightningModule(pl.LightningModule):
                 max_seq_len=119,
                 attn_layers=Decoder(dim=512, depth=1, heads=1, cross_attend=True),
             )
-            self.audio_classifier_group2 = AutoregressiveWrapper(
+            self.audio_projection_group2 = AutoregressiveWrapper(
                 self.gpt_group2,
                 mask_prob=0.15,
             )
@@ -187,7 +187,7 @@ class TransformerLightningModule(pl.LightningModule):
             )
 
             # CMTS: Audio classification Loss
-            logits_audio = self.audio_classifier(last_hidden_state[:, 1:, :])
+            logits_audio = self.audio_projection(last_hidden_state[:, 1:, :])
             logits_audio = logits_audio.reshape(B, seq_len, self.audio_alignment * self.vq_groups, self.audio_vocab_size)
             if self.config.train.method == "sync":
                 # MLP Head for audio generation
@@ -202,10 +202,10 @@ class TransformerLightningModule(pl.LightningModule):
                 group1_audio_tokens = group1_audio_tokens.squeeze(2)
                 group2_audio_tokens = group2_audio_tokens.squeeze(2)
 
-                loss_audio1 = self.audio_classifier_group1(
+                loss_audio1 = self.audio_projection_group1(
                     group1_audio_tokens, context=output.hidden_states[-1][:, 1:, :]
                 )
-                loss_audio2 = self.audio_classifier_group2(
+                loss_audio2 = self.audio_projection_group2(
                     group2_audio_tokens, context=output.hidden_states[-1][:, 1:, :]
                 )
 
@@ -312,7 +312,7 @@ class DCTCNLightningModule(pl.LightningModule):
         wav2vec, metadata = load_model_ensemble([config.model.wav2vec.path])
         self.wav2vec = wav2vec[0].requires_grad_(False).eval()
         self.audio_vocab_size = metadata.model.vq_vars
-        self.audio_classifier = nn.Linear(
+        self.audio_projection = nn.Linear(
             1664,
             self.audio_alignment * metadata.model.vq_groups * self.audio_vocab_size,
         )
@@ -355,7 +355,7 @@ class DCTCNLightningModule(pl.LightningModule):
         audio_tokens = audio_tokens[:, : videos.size(2) * self.audio_alignment]
 
         # Audio Alignment Loss
-        logits_audio = self.audio_classifier(last_hidden_states.transpose(1, 2))
+        logits_audio = self.audio_projection(last_hidden_states.transpose(1, 2))
         logits_audio = logits_audio.unflatten(2, (-1, self.audio_vocab_size))
         loss_audio_a = F.cross_entropy(
             logits_audio.flatten(0, 2), audio_tokens.flatten()

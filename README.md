@@ -1,5 +1,7 @@
 # Cross-Modal Token Synchronization for Visual Speech Recognition
 
+Visual Speech Recognition (VSR) stands at the intersection of computer vision and natural language processing, aiming to decipher spoken content from visual cues. A predominant challenge in VSR is the misalignment of graphemes in ground truth annotations, which often inadequately represent auditory nuances. To address this, we introduce the Cross-Modal Token Synchronization (CMTS) framework. Our method non-autoregressively generates discrete audio tokens from silent video frames, ensuring a synchronized bridge between visual and auditory modalities in one forward pass. Importantly, our framework seamlessly integrates with established temporal architectures, including Transformer, Conformer, and Temporal Convolutional Networks (TCN), without necessitating structural alterations. Evaluations on standard lip reading datasets confirm that our method achieves state-of-the-art results, demonstrating effectiveness of the approach.
+
 ### Cross-Modal Token Synchronization (CMTS)
 
 |             Framework Overview              |              Influence of Audio Reconstruction Loss (λ)              |
@@ -13,11 +15,11 @@ class CrossModalTokenSynchronization(nn.Module):
     - audio_alignment: Ratio of audio tokens per video frame
     - vq_groups: Number of quantized audio groups (i.e. audio channels number in the output of the codec)
     - audio_vocab_size: Vocabulary size of quantized audio tokens of neural audio codec
-    - audio_classifier: Linear projection layer for audio reconstruction
+    - audio_projection: Linear projection layer for audio reconstruction
     """
     def __init__(self, config):
         ...
-        self.audio_classifier = nn.Linear(config.hidden_size, audio_alignment * vq_groups * audio_vocab_size)
+        self.audio_projection = nn.Linear(config.hidden_size, audio_alignment * vq_groups * audio_vocab_size)
         self.lambda_audio = 10.0 # Larger the better, recommending at least 10 times larger than the loss objective
 
     def forward(self, videos, audio_tokens, ...):
@@ -28,7 +30,7 @@ class CrossModalTokenSynchronization(nn.Module):
         last_hidden_state = self.encoder(videos) # [B, seq_len+1, hidden_size]
 
         # Get audio reconstruction loss
-        logits_audio = self.audio_classifier(last_hidden_state[:, 1:, :]) # [B, seq_len, audio_alignment * vq_groups * audio_vocab_size]
+        logits_audio = self.audio_projection(last_hidden_state[:, 1:, :]) # [B, seq_len, audio_alignment * vq_groups * audio_vocab_size]
         logits_audio = logits_audio.reshape(B, seq_len, audio_alignment * vq_groups, audio_vocab_size) # [B, seq_len, audio_alignment * vq_groups, audio_vocab_size]
         # For each encoded video frame, it should predict combination of (audio_alignment * vq_groups) audio tokens
         loss_audio = F.cross_entropy(
@@ -42,6 +44,19 @@ class CrossModalTokenSynchronization(nn.Module):
 ```
 
 ### Results & Pretrained Models
+
+**Lip Reading in the Wild (LRW) benchmarks**
+
+|Year & Venue| Method | Spatial | Temporal | Audio Usage | Top-1 (%) ↑ |
+|:------:| :------: | :-------: | :--------: | :-----: | :-----------: |
+|2022 Interspeech| [LiRA](https://arxiv.org/abs/2106.09171)| ResNet18 | Conformer | ✔️ | 88.1 |
+|2022 AAAI| [MVM](https://arxiv.org/pdf/2204.01725v1.pdf) | ResNet18 | MS-TCN | ✔️ | 88.5 |
+|2022 ICASSP| [Koumparoulis et al](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=9747729&casa_token=XQQlJn_5r6YAAAAA:JLaoM4hCr7y1L-JdhORL2wrltDximXndfAFva8ODoYSJ0U29IJ46HFQYVAjdUdULRyRm1mZFdw&tag=1) | EfficientNet | Transformers | ❌ | 89.5 |
+|2022 ICASSP| [Ma et al](https://arxiv.org/pdf/2209.01383.pdf) | ResNet18 | DC-TCN | ❌ | 90.4 |
+|2023 ICASSP| [MTLAM](https://arxiv.org/pdf/2305.04542.pdf) | ResNet18 | DC-TCN | ✔️ | 91.7 |
+|-| Ours | ResNet18 | DC-TCN | ✔️ | **91.8** |
+|-| Ours | ResNet18 | Transformer | ✔️ | **92.4** |
+
 
 **Without Word Boundary**
 
@@ -74,8 +89,7 @@ class CrossModalTokenSynchronization(nn.Module):
 | Transformer | vq-wav2vec | LibriSpeech | 94.8 | [🔗](https://github.com/KAIST-AILab/CMTS/releases/download/v1/transformer_lambda10_WB_Libri_9478.ckpt) |
 
 ### Installation
-
-Download dependencies with the shell command below.
+For the replicating state-of-the-art results, please follow the instructions below.
 ```shell
 # install depedency through apt-get
 apt-get update 

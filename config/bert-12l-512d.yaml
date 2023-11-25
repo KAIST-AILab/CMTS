@@ -55,4 +55,4 @@ train:
   kl_alpha: 1.0
 
 evaluate:
-  ckpt_path: ./checkpoints/LRW-Checkpoints/xtransformer-wb-TTA-epoch=146-step=187131-0.9497.ckpt
+  ckpt_path: ./checkpoints/transformer_lambda10_no_WB_9240.ckpt
