@@ -58,34 +58,34 @@ class CrossModalTokenSynchronization(nn.Module):
 |-| Ours | ResNet18 | Transformer | ✔️ | **92.4** |
 
 
-Recognizing the challenge of acquiring VSR data [13], our framework advances existing VSR systems in data-limited scenarios by utilizing unsupervisedly trained neural audio codecs such as vq-wav2vec [14] or wav2vec 2.0 [15].
+Recognizing the challenge of acquiring VSR data [13], our framework advances existing VSR systems in data-limited scenarios by utilizing unsupervisedly trained neural audio codecs.
 
 **Without Word Boundary**
 
 | **Temporal Model** | **VSR Data** | **Audio Codec** | **Audio Codec Data** | **Test Acc1 (%) ↑** | URL |
 | :-------: | :-------: | :-------: | :-------: | :---------: | :---------: |
-| DC-TCN | LRW | - | - | 90.2 | [🔗](https://github.com/KAIST-AILab/CMTS/releases/download/v1/dctcn_lambda0_no_WB_single_9020.ckpt) |
-| DC-TCN | LRW | vq-wav2vec | LRW       | 91.8       | [🔗](https://github.com/KAIST-AILab/CMTS/releases/download/v1/dctcn_lambda10_no_WB_dual_9181.ckpt) |
+| DC-TCN | LRW | ❌ | ❌ | 90.2 | [🔗](https://github.com/KAIST-AILab/CMTS/releases/download/v1/dctcn_lambda0_no_WB_single_9020.ckpt) |
+| DC-TCN | LRW | vq-wav2vec [14] | LRW       | 91.8       | [🔗](https://github.com/KAIST-AILab/CMTS/releases/download/v1/dctcn_lambda10_no_WB_dual_9181.ckpt) |
 | DC-TCN | LRW | vq-wav2vec | LibriSpeech [16] | 92.3 | [🔗](https://github.com/KAIST-AILab/CMTS/releases/download/v1/dctcn_lambda10_no_WB_Libri.ckpt) |
 
 | **Temporal Model** | **VSR Data** | **Audio Codec** | **Audio Codec Data** | **Test Acc1 (%) ↑** | URL |
 | :-------: | :-------: | :-------: | :-------: | :---------: | :---------: |
-| Transformer | LRW | - | - | 85.5 | [🔗](https://github.com/KAIST-AILab/CMTS/releases/download/v1/transformer_lambda0_no_WB_single_8551.ckpt) |
+| Transformer | LRW | ❌ | ❌ | 85.5 | [🔗](https://github.com/KAIST-AILab/CMTS/releases/download/v1/transformer_lambda0_no_WB_single_8551.ckpt) |
 | Transformer | LRW | vq-wav2vec | LRW       | 92.4 | [🔗](https://github.com/KAIST-AILab/CMTS/releases/download/v1/transformer_lambda10_no_WB_9240.ckpt) |
-| Transformer | LRW | wav2vec 2.0 | LibriSpeech | 92.5 | [🔗](https://github.com/KAIST-AILab/CMTS/releases/download/v1/transformer_lambda10_no_WB_wav2vec2_9254.ckpt) |
+| Transformer | LRW | wav2vec 2.0 [15] | LibriSpeech | 92.5 | [🔗](https://github.com/KAIST-AILab/CMTS/releases/download/v1/transformer_lambda10_no_WB_wav2vec2_9254.ckpt) |
 | Transformer | LRW | vq-wav2vec | LibriSpeech | 93.1 | [🔗](https://github.com/KAIST-AILab/CMTS/releases/download/v1/transformer_lambda10_no_WB_Libri_fix_9310.ckpt) |
 
 **With Word Boundary**
 
 | **Temporal Model** | **VSR Data** | **Audio Codec** | **Audio Codec Data** | **Test Acc1 (%) ↑** | URL |
 | :-------: | :-------: | :-------: | :-------: | :---------: | :---------: |
-| DC-TCN | LRW | - | - | 92.7 |  |
+| DC-TCN | LRW | ❌ | ❌ | 92.7 |  |
 | DC-TCN | LRW | vq-wav2vec | LRW       | 93.5 | [🔗](https://github.com/KAIST-AILab/CMTS/releases/download/v1/dctcn_lambda10_WB.ckpt) |
 | DC-TCN | LRW | vq-wav2vec | LibriSpeech | 93.9 | [🔗](https://github.com/KAIST-AILab/CMTS/releases/download/v1/dctcn_lambda10_WB_Libri_dual_9390.ckpt) |
 
 | **Temporal Model** | **VSR Data** | **Audio Codec** | **Audio Codec Data** | **Test Acc1 (%) ↑** | URL |
 | :-------: | :-------: | :-------: | :-------: | :---------: | :---------: |
-| Transformer | LRW | - | - | 89.5 |  |
+| Transformer | LRW | ❌ | ❌ | 89.5 |  |
 | Transformer | LRW | vq-wav2vec | LRW       | 94.4 | [🔗](https://github.com/KAIST-AILab/CMTS/releases/download/v1/transformer_lambda10_WB_single_9436.ckpt) |
 | Transformer | LRW | wav2vec 2.0 | LibriSpeech | 94.4 | [🔗](https://github.com/KAIST-AILab/CMTS/releases/download/v1/transformer_lambda10_WB_wav2vec2_9441.ckpt) |
 | Transformer | LRW | vq-wav2vec | LibriSpeech | 94.8 | [🔗](https://github.com/KAIST-AILab/CMTS/releases/download/v1/transformer_lambda10_WB_Libri_9478.ckpt) |
